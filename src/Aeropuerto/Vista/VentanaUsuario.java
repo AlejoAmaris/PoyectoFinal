@@ -17,7 +17,7 @@ public class VentanaUsuario extends javax.swing.JFrame{
         NoRegistro = new javax.swing.JTextField();
         Separador = new javax.swing.JSeparator();
         SalirBoton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        TelefonoTxt = new javax.swing.JLabel();
         Clave = new javax.swing.JTextField();
         Telefono = new javax.swing.JTextField();
         BarraMenu = new javax.swing.JMenuBar();
@@ -80,9 +80,9 @@ public class VentanaUsuario extends javax.swing.JFrame{
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Gulim", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Telefono");
+        TelefonoTxt.setFont(new java.awt.Font("Gulim", 0, 14)); // NOI18N
+        TelefonoTxt.setForeground(new java.awt.Color(255, 255, 255));
+        TelefonoTxt.setText("Telefono");
 
         Clave.setEditable(false);
         Clave.setBackground(new java.awt.Color(0, 51, 204));
@@ -125,7 +125,7 @@ public class VentanaUsuario extends javax.swing.JFrame{
                     .addGroup(PanelTraseroLayout.createSequentialGroup()
                         .addGroup(PanelTraseroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ClaveTxt)
-                            .addComponent(jLabel1))
+                            .addComponent(TelefonoTxt))
                         .addGap(79, 79, 79)
                         .addGroup(PanelTraseroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelTraseroLayout.createSequentialGroup()
@@ -150,7 +150,7 @@ public class VentanaUsuario extends javax.swing.JFrame{
                     .addComponent(NoRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(PanelTraseroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(TelefonoTxt)
                     .addComponent(Telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(PanelTraseroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -266,8 +266,8 @@ public class VentanaUsuario extends javax.swing.JFrame{
     public javax.swing.JButton SalirBoton;
     private javax.swing.JSeparator Separador;
     public javax.swing.JTextField Telefono;
+    private javax.swing.JLabel TelefonoTxt;
     public javax.swing.JMenuItem VerTodo;
     public javax.swing.JMenuItem VerViajes;
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

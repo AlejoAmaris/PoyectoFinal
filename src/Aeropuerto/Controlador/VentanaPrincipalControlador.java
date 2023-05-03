@@ -2,6 +2,7 @@ package Aeropuerto.Controlador;
 
 import Aeropuerto.Modelo.Modelo;
 import Aeropuerto.Vista.VentanaPrincipal;
+import Aeropuerto.Vista.VerUsuarios;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -11,6 +12,7 @@ public class VentanaPrincipalControlador{
     private VentanaPrincipal vp = new VentanaPrincipal();
     private IniciarSesionControlador is = new IniciarSesionControlador();
     private AgregarUsuariosControlador au = new AgregarUsuariosControlador();
+    private VerUsuariosControlador vu = new VerUsuariosControlador();
     
     public void ejecutarVentanaP(){
         vp.setTitle("Ventana Principal");
@@ -80,7 +82,7 @@ public class VentanaPrincipalControlador{
                 m = new Modelo(null);
                 
                 if(m.verificarBD()){
-                    //
+                    vu.ejecutarVerU();
                     vp.dispose();
                 }
                 else

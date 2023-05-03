@@ -69,6 +69,7 @@ public class AgregarUsuario extends javax.swing.JFrame{
         NoUsuarioTxt.setText("No. Usuario");
 
         IngresarNoUsuario.setEditable(false);
+        IngresarNoUsuario.setBackground(new java.awt.Color(255, 255, 255));
         IngresarNoUsuario.setFont(new java.awt.Font("Gulim", 0, 11)); // NOI18N
         IngresarNoUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         IngresarNoUsuario.addActionListener(new java.awt.event.ActionListener() {

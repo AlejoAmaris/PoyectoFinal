@@ -1,9 +1,15 @@
 package Aeropuerto.Modelo;
 
 import Aeropuerto.Controlador.Usuario;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Modelo{
     private Usuario u;
@@ -14,7 +20,8 @@ public class Modelo{
         m = new ModeloDAO(u);
     }
     
-    public boolean verificarBD(){
+    //Metodos para la BD
+    public boolean verificarBD(){ //Verifica si hay datos en la BD
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -35,7 +42,7 @@ public class Modelo{
         
         return band;
     }
-    public boolean buscarNoRegistro(int cont){
+    public boolean buscarNoRegistro(int cont){ //Verifica los no. de Usuario
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -60,7 +67,7 @@ public class Modelo{
         
         return band;
     }
-    public boolean buscarClave(String Clave){
+    public boolean buscarClave(String Clave){ //Busca una clave
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -85,7 +92,7 @@ public class Modelo{
         
         return band;
     }
-    public boolean buscarUsuario(String NombreU,String Clave){
+    public boolean buscarUsuario(String NombreU,String Clave){ //Busca un usuario
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -111,7 +118,7 @@ public class Modelo{
         
         return band;
     }
-    public Usuario asignarDatos(String Clave){
+    public Usuario asignarDatos(String Clave){ //Devuelve los datos de un usuario
         String nombreU = null,noUsuario = null,telefono = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -134,5 +141,68 @@ public class Modelo{
         
         Usuario U = new Usuario(nombreU,noUsuario,telefono,Clave);
         return U;
+    }
+    
+    //---------------------------------------------------------------------------------------------------
+    //Metodos para los CSV
+    public boolean verificarCSV(String nombre){ //Verifica si el CSV esta vacio
+        File archivo = new File(nombre);
+        
+        if(archivo.exists())
+            return true;
+        else
+            return false;
+    }
+    
+    public int verificarNoRegistroCSV(String nombre){ //Verifica los no de los CSV
+        int cont = 0;
+        String linea;
+        
+        try{
+            BufferedReader leer = new BufferedReader(new FileReader(nombre));
+            linea = leer.readLine();
+            
+            while(linea!=null){
+                cont++;
+                
+                linea = leer.readLine();
+            }
+            
+            leer.close();
+        } 
+        catch(Exception ex){
+            System.out.println("ERROR al leer el Archivo CSV");
+        }
+        
+        return cont;
+    }
+    public boolean verificarViajeCSV(String nombre,String fecha,String hora,String destino){ //Verifica los vajes de un usuario
+        boolean band = false;
+        String linea;
+        
+        try{
+            BufferedReader leer = new BufferedReader(new FileReader(nombre));
+            linea = leer.readLine();
+            
+            while(linea!=null){
+                String datos[] = linea.split(" ; ");
+                String Fecha = datos[3];
+                String Hora = datos[4];
+                String Destino = datos[5];
+                
+                if(Fecha.equals(fecha) && Hora.equals(hora) && Destino.equals(destino)){
+                    band = true;
+                    break;
+                }
+                
+                linea = leer.readLine();
+            }
+            leer.close();
+        } 
+        catch(Exception ex){
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return band;
     }
 }

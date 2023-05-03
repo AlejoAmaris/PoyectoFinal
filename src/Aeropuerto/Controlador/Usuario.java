@@ -22,8 +22,4 @@ public class Usuario{
     public String getClave(){
         return clave;
     }
-    public String mostrarUsuario(){
-        return "Nombre: "+getNombreU()+" ; "+"No. Usuario: "+getNoUsuario()+" ; "+
-                "Telefono: "+getTelefono()+" ; "+"Clave: "+getClave();
-    }
 }

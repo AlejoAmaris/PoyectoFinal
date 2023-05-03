@@ -1,23 +1,23 @@
 package Aeropuerto.Controlador;
 
-import Aeropuerto.Vista.VentanaUsuario;
+import Aeropuerto.Modelo.ModeloDAO;
+import Aeropuerto.Vista.VerUsuarios;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-public class VentanaUsuarioControlador{
+public class VerUsuariosControlador{
+    private ModeloDAO m;
     private VentanaPrincipalControlador vp;
-    private VentanaUsuario vu = new VentanaUsuario();
-    private AgregarViajesControlador av = new AgregarViajesControlador();
-
+    private VerUsuarios vu = new VerUsuarios();
     
-    public void ejecutarVentanaU(Usuario u){
-        vu.setTitle("Informacion de Usuario");
+    public void ejecutarVerU(){
+        vu.setTitle("Usuarios Registrados");
         vu.setLocationRelativeTo(null);
         vu.setVisible(true);
         
-        asignarVariables(u);
-        ejecutarBotonAgregarV(u);
+        insertarUsuarios();
         ejecutarBotonSalir();
     }
     
@@ -28,19 +28,11 @@ public class VentanaUsuarioControlador{
         
         return op;
     }
-    public void asignarVariables(Usuario u){
-        vu.NombreUsuario.setText(u.getNombreU());
-        vu.NoRegistro.setText(u.getNoUsuario());
-        vu.Telefono.setText(u.getTelefono());
-        vu.Clave.setText(u.getClave());
-    }
-    public void ejecutarBotonAgregarV(Usuario u){
-        vu.AgregarViajes.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                av.ejecuarAgregarV(u);
-            }
-        });
+    public void insertarUsuarios(){
+        DefaultTableModel tabla = (DefaultTableModel)(vu.Tabla.getModel());
+        m = new ModeloDAO(null);
+        
+        m.insertarDatosTabla(tabla);
     }
     public void ejecutarBotonSalir(){
         vu.SalirBoton.addActionListener(new ActionListener(){
