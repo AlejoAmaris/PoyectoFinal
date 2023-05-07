@@ -20,6 +20,7 @@ public class AgregarViajesControlador{
         
         asignarDatos(u);
         ejecutarBotonAgregar(u);
+        ejecutarBotonVolver();
     }
     
     public void asignarNoViaje(Usuario u){
@@ -29,8 +30,10 @@ public class AgregarViajesControlador{
         int noViaje = 1;
         
         if(!archivo.exists());
-        else
-            noViaje = m.verificarNoRegistroCSV(nombre);
+        else{
+            while(m.verificarNoRegistroCSV(nombre,noViaje))
+                noViaje++;
+        }
         
         av.NoViaje.setText(""+noViaje);
     }
@@ -66,6 +69,13 @@ public class AgregarViajesControlador{
         else
             return false;
     }
+    public int verificar(){
+        int op = JOptionPane.showOptionDialog(null,"¿Realmente Desea Continuar?",
+                 "Confirme",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,
+                 null,new Object []{"Si","No"},"Si");
+        
+        return op;
+    }
     public void ejecutarBotonAgregar(Usuario u){
         av.AgregarBoton.addActionListener(new ActionListener(){
             @Override
@@ -86,6 +96,19 @@ public class AgregarViajesControlador{
                     JOptionPane.showMessageDialog(null,"Ya tiene asignado ese viaje...");
                 
                 av.dispose();
+            }
+        });
+    }
+    public void ejecutarBotonVolver(){
+        av.VolverBoton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int op = verificar();
+                
+                if(op==0){
+                    av.VolverBoton.removeActionListener(this);
+                    av.dispose();
+                }
             }
         });
     }

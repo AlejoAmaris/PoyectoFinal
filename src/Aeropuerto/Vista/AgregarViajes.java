@@ -85,14 +85,14 @@ public class AgregarViajes extends javax.swing.JFrame{
         HoraTxt.setFont(new java.awt.Font("Gulim", 0, 11)); // NOI18N
         HoraTxt.setText("Seleccione la Hora");
 
-        Fecha.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10-06-2023", "30-06-2023", "15-08-2023", "31-10-2023", "31-11-2023", "15-12-2023", "30-12-2023" }));
+        Fecha.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--------------", "10-06-2023", "30-06-2023", "15-08-2023", "31-10-2023", "31-11-2023", "15-12-2023", "30-12-2023" }));
 
-        Hora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "07:30", "09:00", "10:00", "12:00", "14:00", "16:00", "22:00", " " }));
+        Hora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-------", "07:30", "09:00", "10:00", "12:00", "14:00", "16:00", "22:00", " " }));
 
         DestinoTxt.setFont(new java.awt.Font("Gulim", 0, 11)); // NOI18N
         DestinoTxt.setText("Seleccione su Destino");
 
-        Destino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EE.UU", "Canada", "Nueva Zelanda", "China/Japon", "España", "Rusia" }));
+        Destino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------------------", "EE.UU", "Canada", "Nueva Zelanda", "China/Japon", "España", "Rusia" }));
 
         javax.swing.GroupLayout PanelDelanteroLayout = new javax.swing.GroupLayout(PanelDelantero);
         PanelDelantero.setLayout(PanelDelanteroLayout);

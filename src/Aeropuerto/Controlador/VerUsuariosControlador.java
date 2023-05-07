@@ -18,6 +18,7 @@ public class VerUsuariosControlador{
         vu.setVisible(true);
         
         insertarUsuarios();
+        ejecutarBotonEliminar();
         ejecutarBotonSalir();
     }
     
@@ -33,6 +34,43 @@ public class VerUsuariosControlador{
         m = new ModeloDAO(null);
         
         m.insertarDatosTabla(tabla);
+    }
+    public void actualizarTabla(DefaultTableModel tabla){
+        int n = vu.Tabla.getRowCount() - 1;
+        
+        for(int i=n; i>=0; i--)
+            tabla.removeRow(i);
+        
+        insertarUsuarios();
+    }
+    public void eliminarUsuario(){
+        DefaultTableModel tabla = (DefaultTableModel)(vu.Tabla.getModel());
+        int filaS = vu.Tabla.getSelectedRow();
+        
+        if(filaS>=0){
+            int op = verificar();
+            
+            if(op==0){
+                String nombreU = vu.Tabla.getValueAt(filaS,0).toString();
+                String noUsuario = vu.Tabla.getValueAt(filaS,1).toString();
+                
+                m.eliminarUsuario(nombreU,noUsuario);
+                
+                JOptionPane.showMessageDialog(null,"Usuario eliminado con Exito...");
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(null,"Seleccione una fila para Eliminar...");
+        
+        actualizarTabla(tabla);
+    }
+    public void ejecutarBotonEliminar(){
+        vu.EliminarBoton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                eliminarUsuario();
+            }
+        });
     }
     public void ejecutarBotonSalir(){
         vu.SalirBoton.addActionListener(new ActionListener(){

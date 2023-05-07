@@ -1,13 +1,16 @@
 package Aeropuerto.Modelo;
 
+import Aeropuerto.Controlador.Boleto;
 import Aeropuerto.Controlador.Usuario;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -153,30 +156,35 @@ public class Modelo{
         else
             return false;
     }
-    
-    public int verificarNoRegistroCSV(String nombre){ //Verifica los no de los CSV
-        int cont = 0;
+    public boolean verificarNoRegistroCSV(String nombre,int cont){ //Verifica los no. de los CSV
         String linea;
+        boolean band = false;
         
         try{
             BufferedReader leer = new BufferedReader(new FileReader(nombre));
             linea = leer.readLine();
+            linea = leer.readLine();
             
             while(linea!=null){
-                cont++;
+                String datos[] = linea.split(" ; ");
+                int noViaje = Integer.parseInt(datos[2]);
+                
+                if(noViaje==cont){
+                    band = true;
+                    break;
+                }
                 
                 linea = leer.readLine();
             }
-            
             leer.close();
         } 
         catch(Exception ex){
             System.out.println("ERROR al leer el Archivo CSV");
         }
         
-        return cont;
+        return band;
     }
-    public boolean verificarViajeCSV(String nombre,String fecha,String hora,String destino){ //Verifica los vajes de un usuario
+    public boolean verificarViajeCSV(String nombre,String fecha,String hora,String destino){ //Verifica los viajes de un usuario
         boolean band = false;
         String linea;
         
@@ -204,5 +212,56 @@ public class Modelo{
         }
         
         return band;
+    }
+    public ArrayList guardarViaje(Usuario u,String NoViaje,String Fecha,String Hora,String Destino){ //Guarda los viajes en un Array
+        String noViaje,fecha,hora,destino;
+        String nombre = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
+        String linea;
+        ArrayList<Boleto> elmt = new ArrayList<>();
+        Boleto b;
+        
+        try{
+            BufferedReader leer = new BufferedReader(new FileReader(nombre));
+            linea = leer.readLine();
+            linea = leer.readLine();
+            
+            while(linea!=null){
+                String datos[] = linea.split(" ; ");
+                noViaje = datos[2];
+                fecha = datos[3];
+                hora = datos[4];
+                destino = datos[5];
+                
+                if(noViaje.equals(NoViaje));
+                else{
+                    b = new Boleto(u,noViaje,fecha,hora,destino);
+                    elmt.add(b);
+                }
+                
+                linea = leer.readLine();
+            }
+            leer.close();
+            
+            marcarViaje(u,elmt,NoViaje,Fecha,Hora,Destino);
+        } 
+        catch(Exception ex){
+            System.out.println("ERROR al marcar Viaje...");
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return elmt;
+    }
+    public void marcarViaje(Usuario u,ArrayList<Boleto> b,String NoViaje,String Fecha,String Hora,String Destino){ //Crea los viajes realizados
+        String nombre = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Todo.csv";
+        String nombreA = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
+        Boleto B = new Boleto(u,NoViaje,Fecha,Hora,Destino);
+        
+        File archivo = new File(nombreA);
+        archivo.delete();
+        
+        for(Boleto i: b)
+            m.insertarDatosCSV(i,nombreA);
+        
+        m.insertarDatosCSV(B,nombre);
     }
 }
