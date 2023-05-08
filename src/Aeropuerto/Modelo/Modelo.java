@@ -1,11 +1,7 @@
 package Aeropuerto.Modelo;
 
-import Aeropuerto.Controlador.Boleto;
-import Aeropuerto.Controlador.Usuario;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +20,9 @@ public class Modelo{
     }
     
     //Metodos para la BD
-    public boolean verificarBD(){ //Verifica si hay datos en la BD
+    
+    //Verifica si hay datos en la BD
+    public boolean verificarBD(){ 
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -45,7 +43,9 @@ public class Modelo{
         
         return band;
     }
-    public boolean buscarNoRegistro(int cont){ //Verifica los no. de Usuario
+    
+    //Verifica los no. de Usuario
+    public boolean buscarNoRegistro(int cont){ 
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -70,7 +70,9 @@ public class Modelo{
         
         return band;
     }
-    public boolean buscarClave(String Clave){ //Busca una clave
+    
+    //Busca una clave
+    public boolean buscarClave(String Clave){ 
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -95,7 +97,9 @@ public class Modelo{
         
         return band;
     }
-    public boolean buscarUsuario(String NombreU,String Clave){ //Busca un usuario
+    
+    //Busca un usuario
+    public boolean buscarUsuario(String NombreU,String Clave){ 
         Statement st = null;
         ResultSet rs = null;
         boolean band = false;
@@ -121,7 +125,9 @@ public class Modelo{
         
         return band;
     }
-    public Usuario asignarDatos(String Clave){ //Devuelve los datos de un usuario
+    
+    //Devuelve los datos de un usuario
+    public Usuario asignarDatos(String Clave){ 
         String nombreU = null,noUsuario = null,telefono = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -148,7 +154,9 @@ public class Modelo{
     
     //---------------------------------------------------------------------------------------------------
     //Metodos para los CSV
-    public boolean verificarCSV(String nombre){ //Verifica si el CSV esta vacio
+    
+    //Verifica si el CSV esta vacio
+    public boolean verificarCSV(String nombre){ 
         File archivo = new File(nombre);
         
         if(archivo.exists())
@@ -156,7 +164,9 @@ public class Modelo{
         else
             return false;
     }
-    public boolean verificarNoRegistroCSV(String nombre,int cont){ //Verifica los no. de los CSV
+    
+    //Verifica los no. de los CSV
+    public boolean verificarNoRegistroCSV(String nombre,int cont){ 
         String linea;
         boolean band = false;
         
@@ -184,7 +194,9 @@ public class Modelo{
         
         return band;
     }
-    public boolean verificarViajeCSV(String nombre,String fecha,String hora,String destino){ //Verifica los viajes de un usuario
+    
+    //Verifica los viajes de un usuario
+    public boolean verificarViajeCSV(String nombre,String fecha,String hora,String destino){ 
         boolean band = false;
         String linea;
         
@@ -213,7 +225,9 @@ public class Modelo{
         
         return band;
     }
-    public ArrayList guardarViaje(Usuario u,String NoViaje,String Fecha,String Hora,String Destino){ //Guarda los viajes en un Array
+    
+    //Marca un viaje como "realizado"
+    public ArrayList guardarViaje(Usuario u,String NoViaje,String Fecha,String Hora,String Destino){ 
         String noViaje,fecha,hora,destino;
         String nombre = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
         String linea;

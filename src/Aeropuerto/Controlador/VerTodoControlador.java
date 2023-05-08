@@ -1,5 +1,6 @@
 package Aeropuerto.Controlador;
 
+import Aeropuerto.Modelo.Usuario;
 import Aeropuerto.Modelo.ModeloDAO;
 import Aeropuerto.Vista.VerTodo;
 import java.awt.event.ActionEvent;

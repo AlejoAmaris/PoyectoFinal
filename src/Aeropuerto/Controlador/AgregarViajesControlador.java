@@ -1,5 +1,7 @@
 package Aeropuerto.Controlador;
 
+import Aeropuerto.Modelo.Boleto;
+import Aeropuerto.Modelo.Usuario;
 import Aeropuerto.Modelo.Modelo;
 import Aeropuerto.Modelo.ModeloDAO;
 import Aeropuerto.Vista.AgregarViajes;

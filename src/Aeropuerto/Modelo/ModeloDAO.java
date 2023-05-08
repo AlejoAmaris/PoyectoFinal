@@ -1,11 +1,8 @@
 package Aeropuerto.Modelo;
 
-import Aeropuerto.Controlador.Boleto;
-import Aeropuerto.Controlador.Usuario;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class ModeloDAO{
     private Usuario u;
     public Connection c = null;
-    private String driver = "com.mysql.cj.jdbc.Driver";
+    private String driver = "com.mysql.jdbc.Driver";
     private String url = "jdbc:mysql://localhost:3306/Usuarios";
     private String nombreUsuario = "root";
     private String clave = "Alejo12345";
@@ -31,7 +29,9 @@ public class ModeloDAO{
     }
     
     //Metodos para la BD
-    public void conexionBD(){ //Crea la conexion con la BD
+    
+    //Crea la conexion con la BD
+    public void conexionBD(){ 
         try {
             Class.forName(driver);
             
@@ -41,7 +41,9 @@ public class ModeloDAO{
             System.out.println("ERROR al Conectar con la BD...");
         }
     }
-    public void insertarDatosBD(){ //Inserta los usuarios a la BD
+    
+    //Inserta los usuarios a la BD
+    public void insertarDatosBD(){ 
         PreparedStatement ps = null;
         
         try{
@@ -58,7 +60,9 @@ public class ModeloDAO{
             System.out.println("ERROR en Insertar Datos en la BD...");
         }
     }
-    public void insertarDatosTabla(DefaultTableModel tabla){ //Inserta los datos de la BD a una tabla
+    
+    //Inserta los datos de la BD a una tabla
+    public void insertarDatosTabla(DefaultTableModel tabla){ 
         Statement st = null;
         ResultSet rs = null;
         
@@ -82,7 +86,9 @@ public class ModeloDAO{
             System.out.println("ERROR al insertar datos en la Tabla");
         }
     }
-    public void eliminarUsuario(String nombreU,String noUsuario){
+    
+    //Elimina un usuario
+    public void eliminarUsuario(String nombreU,String noUsuario){ 
         PreparedStatement ps = null;
         
         try{
@@ -101,7 +107,9 @@ public class ModeloDAO{
     
     //---------------------------------------------------------------------------------------------------
     //Metodos para los CSV
-    public void insertarDatosCSV(Boleto b,String nombre){ //Inserta infor. al CSV
+    
+    //Inserta infor. al CSV
+    public void insertarDatosCSV(Boleto b,String nombre){ 
         Modelo m = new Modelo(null);
         boolean band = m.verificarCSV(nombre);
         
@@ -119,7 +127,9 @@ public class ModeloDAO{
             Logger.getLogger(ModeloDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void insertarDatosTablaCSV(DefaultTableModel tabla,String nombre){
+    
+    //Inserta datos en las tablas
+    public void insertarDatosTablaCSV(DefaultTableModel tabla,String nombre){ 
         String nombreU,noUsuario,noViaje,fecha,hora,destino;
         String linea;
         
@@ -148,6 +158,57 @@ public class ModeloDAO{
             System.out.println("ERROR al insertar datos en la Tabla");
         }
     }
+    
+    //Eliminan una fila de un archivo CSV
+    public ArrayList eliminarFilaCSV(Usuario u,String NoViaje){
+        String noViaje,fecha,hora,destino;
+        String nombre = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
+        String linea;
+        ArrayList<Boleto> elmt = new ArrayList<>();
+        Boleto b;
+        
+        try{
+            BufferedReader leer = new BufferedReader(new FileReader(nombre));
+            linea = leer.readLine();
+            linea = leer.readLine();
+            
+            while(linea!=null){
+                String datos[] = linea.split(" ; ");
+                noViaje = datos[2];
+                fecha = datos[3];
+                hora = datos[4];
+                destino = datos[5];
+                
+                if(noViaje.equals(NoViaje));
+                else{
+                    b = new Boleto(u,noViaje,fecha,hora,destino);
+                    elmt.add(b);
+                }
+                
+                linea = leer.readLine();
+            }
+            leer.close();
+            
+            eliminar(u,elmt);
+        } 
+        catch(Exception ex){
+            System.out.println("ERROR al eliminar Viaje...");
+            Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return elmt;
+    }
+    public void eliminar(Usuario u,ArrayList<Boleto> b){
+        String nombre = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
+        
+        File archivo = new File(nombre);
+        archivo.delete();
+        
+        for(Boleto i: b)
+            insertarDatosCSV(i,nombre);
+    }
+    
+    //Elimina los archivos CSV de un usuario
     public void eliminarRegistros(String nombreU,String noUsuario){
         String nombreViajes = nombreU+" _ "+noUsuario+" _ Viajes.csv";
         String nombreTodo = nombreU+" _ "+noUsuario+" _ Todo.csv";
