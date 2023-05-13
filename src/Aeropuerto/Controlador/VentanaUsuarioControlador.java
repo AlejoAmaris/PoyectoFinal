@@ -13,8 +13,9 @@ public class VentanaUsuarioControlador{
     private AgregarViajesControlador av = new AgregarViajesControlador();
     private VerTodoControlador vt = new VerTodoControlador();
     private VerViajesControlador vv = new VerViajesControlador();
+    private EditarUsuarioControlador eu = new EditarUsuarioControlador();
     
-    public void ejecutarVentanaU(Usuario u){
+    public void ejecutarVentanaU(Usuario u,VentanaUsuarioControlador vU){
         vu.setTitle("Informacion de Usuario");
         vu.setLocationRelativeTo(null);
         vu.setVisible(true);
@@ -23,6 +24,7 @@ public class VentanaUsuarioControlador{
         ejecutarBotonAgregarV(u);
         ejecutarBotonVerT(u);
         ejecutarBotonVerV(u);
+        ejecutarBotonEditar(u,vU);
         ejecutarBotonSalir();
     }
     
@@ -38,6 +40,9 @@ public class VentanaUsuarioControlador{
         vu.NoRegistro.setText(u.getNoUsuario());
         vu.Telefono.setText(u.getTelefono());
         vu.Clave.setText(u.getClave());
+    }
+    public void cerrarVentana(){
+        vu.dispose();
     }
     public void ejecutarBotonAgregarV(Usuario u){
         vu.AgregarViajes.addActionListener(new ActionListener(){
@@ -72,6 +77,14 @@ public class VentanaUsuarioControlador{
                     vv.ejecutarVerV(u);
                 else
                     JOptionPane.showMessageDialog(null,"NO tiene viajes Pendientes");
+            }
+        });
+    }
+    public void ejecutarBotonEditar(Usuario u,VentanaUsuarioControlador vU){
+        vu.EditarInfo.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                eu.ejecutarEditarU(u,vU);
             }
         });
     }

@@ -46,7 +46,7 @@ public class IniciarSesionControlador{
                 vu = new VentanaUsuarioControlador();
                 
                 if(buscarUsuario()){
-                    vu.ejecutarVentanaU(m.asignarDatos(clave));
+                    vu.ejecutarVentanaU(m.asignarDatos(clave),vu);
                     is.dispose();
                 }
                 else

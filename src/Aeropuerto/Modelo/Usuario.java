@@ -2,7 +2,7 @@ package Aeropuerto.Modelo;
 
 public class Usuario{
     private String nombreU,noUsuario,telefono,clave;
-
+    
     public Usuario(String nombreU,String noUsuario,String telefono,String clave){
         this.nombreU = nombreU;
         this.noUsuario = noUsuario;

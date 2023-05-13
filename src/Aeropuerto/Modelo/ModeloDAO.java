@@ -23,7 +23,7 @@ public class ModeloDAO{
     private String url = "jdbc:mysql://localhost:3306/Usuarios";
     private String nombreUsuario = "root";
     private String clave = "Alejo12345";
-
+    
     public ModeloDAO(Usuario u){
         this.u = u;
     }
@@ -57,7 +57,7 @@ public class ModeloDAO{
             ps.executeUpdate();
         }
         catch(Exception e){
-            System.out.println("ERROR en Insertar Datos en la BD...");
+            System.out.println(e);
         }
     }
     
@@ -84,6 +84,23 @@ public class ModeloDAO{
         } 
         catch(Exception e){
             System.out.println("ERROR al insertar datos en la Tabla");
+        }
+    }
+    
+    //Edita los datos de un usuario
+    public void editarUsuario(String noUsuario,String columna,String dato){
+        PreparedStatement ps = null;
+        
+        try{
+            conexionBD();
+            
+            ps = c.prepareStatement("UPDATE Registros SET "+columna+" = ? WHERE (NoUsuario = ?)");
+            ps.setString(1,dato);
+            ps.setString(2,noUsuario);
+            ps.executeUpdate();
+        }
+        catch(Exception e){
+            System.out.println("ERROR al editar datos de la BD");
         }
     }
     
@@ -159,13 +176,33 @@ public class ModeloDAO{
         }
     }
     
+    //Edita el nombre de los archivos csv
+    public void editarNombre(Usuario u,String nombre,String noUsuario){
+        String nombreViajeAntiguo = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
+        String nombreTodoAntiguo = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Todo.csv";
+        
+        String nombreViajeNuevo = nombre+" _ "+noUsuario+" _ Viajes.csv";
+        String nombreTodoNuevo = nombre+" _ "+noUsuario+" _ Todo.csv";
+        
+        File Viaje = new File(nombreViajeAntiguo);
+        File Todo = new File(nombreTodoAntiguo);
+        
+        File ViajeN = new File(nombreViajeNuevo);
+        File TodoN = new File(nombreTodoNuevo);
+        
+        if(Viaje.exists())
+            Viaje.renameTo(ViajeN);
+        
+        if(Todo.exists())
+            Todo.renameTo(TodoN);
+    }
+    
     //Eliminan una fila de un archivo CSV
     public ArrayList eliminarFilaCSV(Usuario u,String NoViaje){
         String noViaje,fecha,hora,destino;
         String nombre = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
         String linea;
         ArrayList<Boleto> elmt = new ArrayList<>();
-        Boleto b;
         
         try{
             BufferedReader leer = new BufferedReader(new FileReader(nombre));
@@ -181,7 +218,7 @@ public class ModeloDAO{
                 
                 if(noViaje.equals(NoViaje));
                 else{
-                    b = new Boleto(u,noViaje,fecha,hora,destino);
+                    Boleto b = new Boleto(u,noViaje,fecha,hora,destino);
                     elmt.add(b);
                 }
                 

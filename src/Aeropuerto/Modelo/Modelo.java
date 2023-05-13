@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class Modelo{
     private Usuario u;
     private ModeloDAO m;
-
+    
     public Modelo(Usuario u){
         this.u = u;
         m = new ModeloDAO(u);
@@ -232,7 +232,6 @@ public class Modelo{
         String nombre = u.getNombreU()+" _ "+u.getNoUsuario()+" _ Viajes.csv";
         String linea;
         ArrayList<Boleto> elmt = new ArrayList<>();
-        Boleto b;
         
         try{
             BufferedReader leer = new BufferedReader(new FileReader(nombre));
@@ -248,7 +247,7 @@ public class Modelo{
                 
                 if(noViaje.equals(NoViaje));
                 else{
-                    b = new Boleto(u,noViaje,fecha,hora,destino);
+                    Boleto b = new Boleto(u,noViaje,fecha,hora,destino);
                     elmt.add(b);
                 }
                 
